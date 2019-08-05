@@ -1,0 +1,73 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-battery-status": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-media-capture": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-contacts": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-device-motion": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-device-orientation": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-media": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-vibration": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "net.serendpt.cdi"
+        }
+    }
+}
