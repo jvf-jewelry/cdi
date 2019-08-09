@@ -11,7 +11,7 @@
     <meta name="format-detection" content="telephone=no" />
 
     <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="0t9h0+eznmZywhokar7Lm6pIceKb0AJ0BgM3fUL7IC2o/1BcsgAkM0xn3beUHtIsW3xnE68uVavGNtWXikUdWg==" />
+<meta name="csrf-token" content="dyqnbu657Lr0+MjqGUaVNuNDmRZWwue6CAG3vhiZLzFdP7FujmbWZnhPnaTx8k7uOkAyc1Dy3/gIWMeXufcnPg==" />
     
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <script type="text/javascript" src="cordova.js"></script>
@@ -57,7 +57,7 @@
         Click here to retry
       </div>
     </div>
-    <div class="container" style="min-height: 100vh; padding-bottom: 55px;">
+    <div class="container" style="min-height: 100vh; padding-bottom: 80px;">
       <ng-view></ng-view>
 
 <script type="text/ng-template" id="partials/profile.html">
@@ -129,15 +129,23 @@
 
   <div class="row">
     <div class="col-md-4 col-6" ng-repeat="p in ctl.space.products">
-      <a href="#" class="href_art">
-        <img src="https://www.jewelryvirtualfair.com/public/prod-page/{{p.photo_galleries[0].nome_foto}}"
+      <a href="" class="href_art">
+        <img ng-click='ctl.showPop(p)' src="https://www.jewelryvirtualfair.com/public/prod-page/{{p.photo_galleries[0].nome_foto}}"
         class="img-responsive bordered_f0 " alt="JVF" />
         <h3>{{p.nome_prodotto}}</h3>
         <!-- div class="prezzo_scat">€ 12,00</div -->
       </a>
     </div>
+  </div>    
+</div>
+
+<div id="imgpop" ng-click="ctl.closePop()">
+  <div>
+    <button id="close" type="button" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <img id="popcont" src="" class="img-responsive bordered_f0" style="width:100%;" alt="JVF" />
   </div>
-    
 </div>
 </script>
 <script type="text/ng-template" id="partials/gallery.html">

@@ -2125,7 +2125,18 @@ app.controller("JvfController", function($scope, $route, $rootScope, $http, $coo
     $('#app_spinner').hide();
   };
 
+  ctl.showPop = function(url){
+    document.getElementById("imgpop").style.display = "inline-block";
+    document.getElementById("popcont").src = "https://www.jewelryvirtualfair.com/public/prod-page/" + url.photo_galleries[0].nome_foto;
+  };
+  
+  ctl.closePop = function(){
+    document.getElementById("imgpop").style.display = "none";
+  };
+
   ctl.assignSpace = function(space){
+    if (!space) return;
+    if (space.space_id != ctl.space_id) return;
     ctl.space = space;
     $('.jvf-menu li').hide();
     $('.jvf-menu .menu-profile').show();
