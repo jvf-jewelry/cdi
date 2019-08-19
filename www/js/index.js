@@ -2134,6 +2134,27 @@ app.controller("JvfController", function($scope, $route, $rootScope, $http, $coo
     document.getElementById("imgpop").style.display = "none";
   };
 
+  ctl.share = function(message, subject, image, link){
+    console.log('Share', message, subject, image, link);
+    window.plugins.socialsharing.share(message, subject, image, link);
+  }
+
+  ctl.share_post = function(post_el){
+    var url = 'https://www.jewelryvirtualfair.com/it/scheda-pro/?id='+post_el.id_pages;
+    var message = 'View ' + ctl.space.info.nome_page + ' posts';
+    ctl.share(message, null, null, url);
+  }
+
+  ctl.share_product = function(product){
+    var nome_prodotto = product.nome_prodotto;
+    nome_prodotto = nome_prodotto.
+      toLowerCase().
+      replace(/ /g, '-');
+    var url = 'https://www.jewelryvirtualfair.com/it/' + nome_prodotto + '/sa-' + product.id;
+    var message = 'View ' + product.nome_prodotto;
+    ctl.share(message, null, null, url);
+  }
+
   ctl.assignSpace = function(space){
     if (!space) return;
     if (space.space_id != ctl.space_id) return;

@@ -11,7 +11,7 @@
     <meta name="format-detection" content="telephone=no" />
 
     <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="dyqnbu657Lr0+MjqGUaVNuNDmRZWwue6CAG3vhiZLzFdP7FujmbWZnhPnaTx8k7uOkAyc1Dy3/gIWMeXufcnPg==" />
+<meta name="csrf-token" content="yI3yxtZ4mOyxYMuKMqkzUKD9ANfTp4fK1pWq1e74rKvbAW1dtXdmzQCW70JsjNTC0Qlc3QJhgjEvWc2gegI1xQ==" />
     
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <script type="text/javascript" src="cordova.js"></script>
@@ -47,6 +47,7 @@
         cursor: pointer;
       }
     </style>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
 
   <body ng-controller="JvfController as ctl" data-space_id="cdi">
@@ -97,12 +98,15 @@
           {{ctl.space.info.citta}} - 
           {{ctl.space.info.cap}}<br />
         <strong>Indirizzo:</strong>
-          {{ctl.space.info.indirizzo}}<br />
-        <br />
+          <a href="geo:{{ctl.space.info.geo_lat}},{{ctl.space.info.geo_lon}}">
+            {{ctl.space.info.indirizzo}}
+          </a><br />
+          <br />
         <strong>Tel.</strong>
-          {{ctl.space.info.nr_telefono}}<br />
+          <a href="tel:{{ctl.space.info.nr_telefono}}">{{ctl.space.info.nr_telefono}}</a>
+          <br />
         
-        <a class="www_scheda" href="http://{{ctl.space.info.sito_internet}}" target="_blank">
+        <a href="http://{{ctl.space.info.sito_internet}}" target="_blank">
           https://{{ctl.space.info.sito_internet}}
         </a>
         
@@ -128,7 +132,10 @@
   <br />
 
   <div class="row">
-    <div class="col-md-4 col-6" ng-repeat="p in ctl.space.products">
+    <div class="col-md-4 col-6 with-share-button" ng-repeat="p in ctl.space.products">
+      <a href="" class="share-button" ng-click="ctl.share_product(p)">
+        <i class="material-icons">share</i>
+      </a>
       <a href="" class="href_art">
         <img ng-click='ctl.showPop(p)' src="https://www.jewelryvirtualfair.com/public/prod-page/{{p.photo_galleries[0].nome_foto}}"
         class="img-responsive bordered_f0 " alt="JVF" />
@@ -179,7 +186,10 @@
   <h1 class="h1_scheda">Post</h1>
   <br />
 
-  <div class="content_post" ng-repeat="p in ctl.space.posts">
+  <div class="content_post with-share-button" ng-repeat="p in ctl.space.posts">
+    <a href="" class="share-button" ng-click="ctl.share_post(p)">
+      <i class="material-icons">share</i>
+    </a>
     <!-- div class="content_head_post">
         <img src="https://www.jewelryvirtualfair.com/public/logo-page/Jvf-lp-201806071015350699.jpeg" class="borderd" alt="JVF">
         <div class="content_head_auth">
