@@ -2185,14 +2185,14 @@ app.controller("JvfController", function($scope, $route, $rootScope, $http, $coo
     });
   }
 
-  ctl.loadMap = function(lat, lon){
-    if(device.platform.toLowerCase != 'android'){
-      window.location = 'maps:' + ctl.space.info.geo_lat + ',' + ctl.space.info.geo_lon;
-    } else {
-      window.location = 'geo:' + ctl.space.info.geo_lat + ',' + ctl.space.info.geo_lon;
-    } else {
-      console.log("Not supported")
+  ctl.loadMap = function(){
+    var url = "http://maps.google.com/maps"; 
+    if (app.is_cordova){
+      if (device.platform.toLowerCase() == "ios") {   
+        url = "maps:" ;
+      } 
     }
+    window.location = url + "?q="+ ctl.space.info.geo_lat + "," + ctl.space.info.geo_lon;;
   }
 
   ctl.mainFunction = function(){
