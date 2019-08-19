@@ -30,7 +30,6 @@
 #import "AppDelegate+notification.h"
 @import FirebaseInstanceID;
 @import FirebaseMessaging;
-@import FirebaseAnalytics;
 
 @implementation PushPlugin : CDVPlugin
 
