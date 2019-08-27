@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>563906645646-10fb1jv8bk57jhame363kbdk46c9vee6.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.563906645646-10fb1jv8bk57jhame363kbdk46c9vee6</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAblyLT5lxI9q_b0JsvLCq4X8K4eQq_AL4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>563906645646</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>net.serendpt.cdi</string>
+	<key>PROJECT_ID</key>
+	<string>jvf-cdi</string>
+	<key>STORAGE_BUCKET</key>
+	<string>jvf-cdi.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:563906645646:ios:462481e374504c52</string>
+	<key>DATABASE_URL</key>
+	<string>https://jvf-cdi.firebaseio.com</string>
+</dict>
+</plist>

@@ -2189,11 +2189,56 @@ app.controller("JvfController", function($scope, $route, $rootScope, $http, $coo
     var url = "http://maps.google.com/maps"; 
     if (app.is_cordova){
       if (device.platform.toLowerCase() == "ios") {   
-        url = "maps:" ;
+        url = "maps://?q=:" ;
+        window.open = cordova.InAppBrowser.open;
+        window.open(url + ctl.space.info.geo_lat + "," + ctl.space.info.geo_lon, '_system');
+        return;
       } 
     }
-    window.location = url + "?q="+ ctl.space.info.geo_lat + "," + ctl.space.info.geo_lon;;
+    window.location = url + "?q="+ ctl.space.info.geo_lat + "," + ctl.space.info.geo_lon;
   }
+
+  ctl.pushNotification = function(){
+    var push = PushNotification.init({
+      android: {
+        "senderID": "563906645646"
+      },
+      browser: {
+          pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+      },
+      ios: {
+        alert: "true",
+        badge: "true",
+        sound: "true"
+      },
+      windows: {}
+    });
+
+    push.on('registration', function(data) {
+      //console.log('registration event: ' + data.registrationId);
+      var oldRegId = localStorage.getItem('registrationId');
+      if (oldRegId !== data.registrationId) {
+        // Save new registration ID
+        localStorage.setItem('registrationId', data.registrationId);
+        // Post registrationId to your app server as the value has changed
+      }
+    });
+
+    push.on('notification', function(data) {
+      //console.log('notification event');
+      navigator.notification.alert(
+        data.message,         // message
+        null,                 // callback
+        data.title,           // title
+        'Ok'                  // buttonName
+      );
+    });
+
+    push.on('error', function(e) {
+      //console.log(e);
+      e.message
+    });
+  };
 
   ctl.mainFunction = function(){
     // if (app.is_cordova) app.cordova_startup(ctl,$http,$localStorage,$translate);
@@ -2227,6 +2272,8 @@ app.controller("JvfController", function($scope, $route, $rootScope, $http, $coo
       });
     }
 
+    ctl.pushNotification();
+    
     $timeout(function(){
       ctl.loadView();
       $rootScope.$on('$locationChangeSuccess', ctl.loadView);

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "563906645646",
+    "firebase_url": "https://jvf-cdi.firebaseio.com",
+    "project_id": "jvf-cdi",
+    "storage_bucket": "jvf-cdi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563906645646:android:462481e374504c52",
+        "android_client_info": {
+          "package_name": "net.serendpt.cdi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563906645646-2no6ngtp4in9v7kgcplql133ij85asq7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAsl18d4Hzg9RFKugwsgojgpLsb02vCyY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "563906645646-2no6ngtp4in9v7kgcplql133ij85asq7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
