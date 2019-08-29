@@ -11,7 +11,7 @@
     <meta name="format-detection" content="telephone=no" />
 
     <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="DggY1tyaxnPvJkiuZyybkgBOHiEzM6wP4sfcqRzHDQ90RjIjEo0vg+S+q7mtySlS24mzLKdFZwvJNTw27cmiUA==" />
+<meta name="csrf-token" content="fM2waCSXqLXEwYRIwISjGOKeckLIBmJfuXCxWNmslc0gIngDWs8WTcFMsi7I/NgIK/3Jv+EmBaU8uMA/yQgvSQ==" />
     
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <script type="text/javascript" src="cordova.js"></script>
@@ -61,6 +61,89 @@
     <div class="container" style="min-height: 100vh; padding-bottom: 80px;">
       <ng-view></ng-view>
 
+<script type="text/ng-template" id="partials/posts.html">
+  <div id="posts">
+  <br />
+  <h1 class="h1_scheda">Post</h1>
+  <br />
+
+  <div class="content_post with-share-button" ng-repeat="p in ctl.space.posts">
+    <a href="" class="share-button" ng-click="ctl.share_post(p)">
+      <i class="material-icons">share</i>
+    </a>
+    <!-- div class="content_head_post">
+        <img src="https://www.jewelryvirtualfair.com/public/logo-page/Jvf-lp-201806071015350699.jpeg" class="borderd" alt="JVF">
+        <div class="content_head_auth">
+            <strong>ITALSTEEL s.r.l.</strong>
+            Italia, Arezzo<br>
+            <span class="fs12">24/07/2019 16.20</span>
+        </div>
+    </div -->
+    {{p.languages[0].des_annuncio}}
+    <img src="https://www.jewelryvirtualfair.com/public/post-image/{{p.immagine_1}}" class="img-responsive mt-3" alt="JVF" />
+    
+    <!--div class="content_action_post">
+        <div class="action_post_icon no_cp"><i class="fa fa-heart-o"></i> 10&nbsp;Mi piace</div>
+    </div-->
+  </div>
+
+</div>
+</script>
+<script type="text/ng-template" id="partials/showroom.html">
+  <div id="showroom">
+  <br />
+  <h1 class="h1_scheda">Show-Room</h1>
+  <br />
+
+  <div class="row">
+    <div class="col-md-4 col-6 with-share-button" ng-repeat="p in ctl.space.products">
+      <a href="" class="share-button" ng-click="ctl.share_product(p)">
+        <i class="material-icons">share</i>
+      </a>
+      <a href="" class="href_art">
+        <img ng-click='ctl.showPop(p)' src="https://www.jewelryvirtualfair.com/public/prod-page/{{p.photo_galleries[0].nome_foto}}"
+        class="img-responsive bordered_f0 " alt="JVF" />
+        <h3>{{p.nome_prodotto}}</h3>
+        <!-- div class="prezzo_scat">€ 12,00</div -->
+      </a>
+    </div>
+  </div>    
+</div>
+
+<div id="imgpop" ng-click="ctl.closePop()">
+  <div>
+    <button id="close" type="button" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <img id="popcont" src="" class="img-responsive bordered_f0" style="width:100%;" alt="JVF" />
+  </div>
+</div>
+</script>
+<script type="text/ng-template" id="partials/gallery.html">
+  <div id="gallery">
+  <br />
+  <h1 class="h1_scheda">Galleria</h1>
+  <br />
+      
+  <div class="owl-item cloned">
+    <div class="item" ng-repeat="g in ctl.space.gallery">
+      <img src="https://www.jewelryvirtualfair.com/public/gallery-page/{{g.nome_foto}}"
+        class="img-responsive" alt="{{ctl.space.title}}" />
+      <br />
+    </div>
+  </div>
+
+</div>
+</script>
+<script type="text/ng-template" id="partials/video.html">
+  <div id="video">
+  <br />
+  <h1 class="h1_scheda">Video Aziendale</h1>
+  <br />
+  
+  <iframe ng-if="ctl.space.info.video_aziendale" width="100%" height="350px" src="{{ctl.space.info.video_aziendale | to_trusted_url}}" frameborder="0" allowfullscreen=""></iframe>
+</div>
+</script>
 <script type="text/ng-template" id="partials/profile.html">
   <div id="profile">
   <div class="row pt25">
@@ -125,99 +208,15 @@
   </div>
 </div>
 </script>
-<script type="text/ng-template" id="partials/showroom.html">
-  <div id="showroom">
-  <br />
-  <h1 class="h1_scheda">Show-Room</h1>
-  <br />
-
-  <div class="row">
-    <div class="col-md-4 col-6 with-share-button" ng-repeat="p in ctl.space.products">
-      <a href="" class="share-button" ng-click="ctl.share_product(p)">
-        <i class="material-icons">share</i>
-      </a>
-      <a href="" class="href_art">
-        <img ng-click='ctl.showPop(p)' src="https://www.jewelryvirtualfair.com/public/prod-page/{{p.photo_galleries[0].nome_foto}}"
-        class="img-responsive bordered_f0 " alt="JVF" />
-        <h3>{{p.nome_prodotto}}</h3>
-        <!-- div class="prezzo_scat">€ 12,00</div -->
-      </a>
-    </div>
-  </div>    
-</div>
-
-<div id="imgpop" ng-click="ctl.closePop()">
-  <div>
-    <button id="close" type="button" class="close" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    <img id="popcont" src="" class="img-responsive bordered_f0" style="width:100%;" alt="JVF" />
-  </div>
-</div>
-</script>
-<script type="text/ng-template" id="partials/gallery.html">
-  <div id="gallery">
-  <br />
-  <h1 class="h1_scheda">Galleria</h1>
-  <br />
-      
-  <div class="owl-item cloned">
-    <div class="item" ng-repeat="g in ctl.space.gallery">
-      <img src="https://www.jewelryvirtualfair.com/public/gallery-page/{{g.nome_foto}}"
-        class="img-responsive" alt="{{ctl.space.title}}" />
-      <br />
-    </div>
-  </div>
-
-</div>
-</script>
-<script type="text/ng-template" id="partials/video.html">
-  <div id="video">
-  <br />
-  <h1 class="h1_scheda">Video Aziendale</h1>
-  <br />
-  
-  <iframe ng-if="ctl.space.info.video_aziendale" width="100%" height="350px" src="{{ctl.space.info.video_aziendale | to_trusted_url}}" frameborder="0" allowfullscreen=""></iframe>
-</div>
-</script>
-<script type="text/ng-template" id="partials/posts.html">
-  <div id="posts">
-  <br />
-  <h1 class="h1_scheda">Post</h1>
-  <br />
-
-  <div class="content_post with-share-button" ng-repeat="p in ctl.space.posts">
-    <a href="" class="share-button" ng-click="ctl.share_post(p)">
-      <i class="material-icons">share</i>
-    </a>
-    <!-- div class="content_head_post">
-        <img src="https://www.jewelryvirtualfair.com/public/logo-page/Jvf-lp-201806071015350699.jpeg" class="borderd" alt="JVF">
-        <div class="content_head_auth">
-            <strong>ITALSTEEL s.r.l.</strong>
-            Italia, Arezzo<br>
-            <span class="fs12">24/07/2019 16.20</span>
-        </div>
-    </div -->
-    {{p.languages[0].des_annuncio}}
-    <img src="https://www.jewelryvirtualfair.com/public/post-image/{{p.immagine_1}}" class="img-responsive mt-3" alt="JVF" />
-    
-    <!--div class="content_action_post">
-        <div class="action_post_icon no_cp"><i class="fa fa-heart-o"></i> 10&nbsp;Mi piace</div>
-    </div-->
-  </div>
-
-</div>
-</script>
-
     </div>
 
     <nav class="fixed-bottom jvf-menu">
       <ul>
-        <li class="menu-profile" ><a href="#!/profile"  ng-class="ctl.current_view == 'profile'  ? 'active' : ''" id="tar_profile">Profilo</a></li>
+        <li class="menu-posts"   ><a href="#!/posts"    ng-class="ctl.current_view == 'posts'    ? 'active' : ''" id="tar_post">Post</a></li>
         <li class="menu-showroom"><a href="#!/showroom" ng-class="ctl.current_view == 'showroom' ? 'active' : ''" id="tar_products">Show<br />Room</a></li>
         <li class="menu-gallery" ><a href="#!/gallery"  ng-class="ctl.current_view == 'gallery'  ? 'active' : ''" id="tar_gallery">Galleria</a></li>
         <li class="menu-video"   ><a href="#!/video"    ng-class="ctl.current_view == 'video'    ? 'active' : ''" id="tar_video">Video</a></li>
-        <li class="menu-posts"   ><a href="#!/posts"    ng-class="ctl.current_view == 'posts'    ? 'active' : ''" id="tar_post">Post</a></li>
+        <li class="menu-profile" ><a href="#!/profile"  ng-class="ctl.current_view == 'profile'  ? 'active' : ''" id="tar_profile">Profilo</a></li>
       </ul>
     </nav>
   </body>

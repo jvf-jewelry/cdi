@@ -2065,12 +2065,12 @@ app.config(function($routeProvider, $locationProvider) {
   else $locationProvider.html5Mode(true);
 
   $routeProvider.
-    when("/profile",  { templateUrl: "partials/profile.html"}).
+    when("/posts",    { templateUrl: "partials/posts.html"}).
     when("/showroom", { templateUrl: "partials/showroom.html"}).
     when("/gallery",  { templateUrl: "partials/gallery.html"}).
     when("/video",    { templateUrl: "partials/video.html"}).
-    when("/posts",    { templateUrl: "partials/posts.html"}).
-    otherwise( { redirectTo: "/profile" });
+    when("/profile",  { templateUrl: "partials/profile.html"}).
+    otherwise( { redirectTo: "/posts" });
 })
 .filter('to_trusted', function($sce){
   return function(text){ return $sce.trustAsHtml(text); };
@@ -2108,9 +2108,11 @@ app.controller("JvfController", function($scope, $route, $rootScope, $http, $coo
        case 'partials/posts.html':
         ctl.current_view = 'posts';
         break;
-      // case 'partials/profile.html':
-      default:
+       case 'partials/profile.html':
         ctl.current_view = 'profile';
+        break;
+      default:
+        ctl.current_view = 'posts';
         break;
     };
     // console.log("Caricato", ctl.currTemplate, ctl.current_view);
@@ -2249,6 +2251,7 @@ app.controller("JvfController", function($scope, $route, $rootScope, $http, $coo
     if (app.is_cordova) {
       ctl.space_url = "http://www.jvf.jewelry" + ctl.space_url;
       ctl.assignSpace($localStorage.$default({}));
+      ctl.pushNotification();
       // HO GIA' CARICATO I DATI UNA VOLTA
       if (ctl.space && ctl.space.space_id == ctl.space_id) {
         $timeout(function(){ ctl.spinnerHide(); }, 350);
@@ -2272,7 +2275,6 @@ app.controller("JvfController", function($scope, $route, $rootScope, $http, $coo
       });
     }
 
-    ctl.pushNotification();
     
     $timeout(function(){
       ctl.loadView();
