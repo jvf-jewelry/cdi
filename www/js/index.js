@@ -2070,6 +2070,7 @@ app.config(function($routeProvider, $locationProvider) {
     when("/gallery",  { templateUrl: "partials/gallery.html"}).
     when("/video",    { templateUrl: "partials/video.html"}).
     when("/profile",  { templateUrl: "partials/profile.html"}).
+    when("/chat",     { templateUrl: "partials/chat.html"}).
     otherwise( { redirectTo: "/posts" });
 })
 .filter('to_trusted', function($sce){
@@ -2082,8 +2083,9 @@ app.config(function($routeProvider, $locationProvider) {
   return function(text){ return text.replace(/\n/g, '<br/>'); };
 });
 //$scope,e,$rootScope,$http,t,$location,$timeout,$translate,$localStorage,NgMap
-app.controller("JvfController", function($scope, $route, $rootScope, $http, $cookies, $location, $timeout, $translate, $localStorage, $q) {
+app.controller("JvfController", function($scope, $route, $rootScope, $http, $cookies, $location, $timeout, $interval, $translate, $localStorage, $q) {
   var ctl = this;
+  var device = {};
   ctl.APPVERSION = '2.1';
   ctl.is_cordova = app.is_cordova;
 
@@ -2093,6 +2095,7 @@ app.controller("JvfController", function($scope, $route, $rootScope, $http, $coo
 
   ctl.loadView = function(){
     ctl.current_view = '';
+    ctl.no_scroll = "";
     ctl.currTemplate = $route.current ? $route.current.templateUrl : '';
     // console.log("Carico View", ctl.currTemplate);
     switch (ctl.currTemplate) {
@@ -2110,6 +2113,10 @@ app.controller("JvfController", function($scope, $route, $rootScope, $http, $coo
         break;
        case 'partials/profile.html':
         ctl.current_view = 'profile';
+        break;
+       case 'partials/chat.html':
+        ctl.current_view = 'chat';
+        ctl.no_scroll="no-scroll";
         break;
       default:
         ctl.current_view = 'posts';
@@ -2161,13 +2168,16 @@ app.controller("JvfController", function($scope, $route, $rootScope, $http, $coo
     if (!space) return;
     if (space.space_id != ctl.space_id) return;
     ctl.space = space;
+    //AGGIUNGO QUALCHE MESSAGGIO A CAZZO PER VEDERE COME VIENE
+    // ctl.space.chats = [{'question':'Really?', 'answer':'Of course'}, {'question':'This is a really long question, to see if it fit. Actually, it\'s not a question', 'answer':'Yes'}, {'question':'this one tests the overflow-y. Does it work? Does it not? Who knows', 'answer':'Of course not, dear.'}]
+    ctl.space.chats = ctl.getChats();
     $('.jvf-menu li').hide();
     $('.jvf-menu .menu-profile').show();
     if (ctl.space.products && ctl.space.products.length > 0) $('.jvf-menu .menu-showroom').show();
     if (ctl.space.gallery  && ctl.space.gallery.length > 0) $('.jvf-menu .menu-gallery').show();
     if (ctl.space.info && ctl.space.info.video_aziendale && ctl.space.info.video_aziendale.length > 0 ) $('.jvf-menu .menu-video').show();
     if (ctl.space.posts && ctl.space.posts.length > 0 ) $('.jvf-menu .menu-posts').show();
-    
+    $('.jvf-menu .menu-chat').show();
     var tab_with = 100 / $('.jvf-menu li:visible').length;
     var tab_css  = 'calc(' + tab_with + '% - 3px)';
     $('.jvf-menu li').css({
@@ -2242,16 +2252,84 @@ app.controller("JvfController", function($scope, $route, $rootScope, $http, $coo
     });
   };
 
+  ctl.openLog = function(){
+    $('#log-pop').show();
+  }
+
+  ctl.closeLog = function(){
+    $('#log-pop').hide();
+  };
+
+  ctl.logIn = function(){
+    $http.get("http://www.jvf.jewelry/api/login.json", 
+      {
+        params:{ 
+          email: encodeURIComponent(document.getElementById("email").value), 
+          chiave: encodeURIComponent(document.getElementById("pwd").value)
+        }
+      }
+    ).then(function(response){
+        if (response.data.status == true){
+          ctl.logged=true;
+          ctl.closeLog();
+          $('#sign-in').hide();
+          $('#signed').show();
+        } else {
+          alert("Utente non trovato, devi prima registrarti!");
+        }
+      })
+  }
+
+  ctl.logOut = function(){
+    $('#sign-in').show();
+    $('#signed').hide();
+    ctl.logged=false;
+  }
+
+  ctl.send = function(){
+    if (document.getElementById("msg-input").value.trim() != ""){
+      ctl.space.chats.push({'question': document.getElementById("msg-input").value, 'answer': 'Waiting for an answer...'});
+      $http.get("http://www.jvf.jewelry/api/send_message", 
+        { 
+          params: { 
+            device_id: device.uuid, 
+            page_id: ctl.space_id, 
+            question: document.getElementById("msg-input").value.trim()
+          }
+        }).then(function(response){
+          console.log("Saved!");
+        },
+        function(error){ console.log(error)});
+      document.getElementById("msg-input").value = "";
+    };
+    $timeout(function(){ $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight ); }, 350);
+  }
+
+  ctl.getChats = function(){
+    $http.get("http://www.jvf.jewelry/api/chats", { params: { device_id: device.uuid, page_id: ctl.space_id } }).
+      then(
+        function(response){
+          ctl.space.chats = response.data;
+        }, 
+        function(error){ console.log(error)}
+      );
+  }
+
+  ctl.register = function(){
+    window.open("https://www.jewelryvirtualfair.com/en/", '_system');
+  }
+
   ctl.mainFunction = function(){
     // if (app.is_cordova) app.cordova_startup(ctl,$http,$localStorage,$translate);
 
     ctl.space_id  = $('body').data('space_id');
     ctl.space_url = "/api/" + ctl.space_id + "/space";
-    
+
     if (app.is_cordova) {
       ctl.space_url = "http://www.jvf.jewelry" + ctl.space_url;
       ctl.assignSpace($localStorage.$default({}));
       ctl.pushNotification();
+      console.log(device.uuid);
       // HO GIA' CARICATO I DATI UNA VOLTA
       if (ctl.space && ctl.space.space_id == ctl.space_id) {
         $timeout(function(){ ctl.spinnerHide(); }, 350);
@@ -2266,16 +2344,20 @@ app.controller("JvfController", function($scope, $route, $rootScope, $http, $coo
         });
       }
     } else {
+      //TODO Rimuovere una volta che il sito va online
+      device.uuid = "asdiuqadiy-sdadusad-dsad";
       ctl.loadRemote(function(){
         if (ctl.space && ctl.space.space_id == ctl.space_id) {
           $timeout(function(){ ctl.spinnerHide(); }, 350);
+          
+          $interval(function(){ ctl.getChats(); }, 30000);
+        
         } else {
           $('#app_spinner div.reload').show();
         }
       });
     }
 
-    
     $timeout(function(){
       ctl.loadView();
       $rootScope.$on('$locationChangeSuccess', ctl.loadView);

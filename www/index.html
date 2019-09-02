@@ -11,7 +11,7 @@
     <meta name="format-detection" content="telephone=no" />
 
     <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="fM2waCSXqLXEwYRIwISjGOKeckLIBmJfuXCxWNmslc0gIngDWs8WTcFMsi7I/NgIK/3Jv+EmBaU8uMA/yQgvSQ==" />
+<meta name="csrf-token" content="2tbEiqyr8NU9HN7WQqCf9HuyxXIdT4jWHfCa5F4qwuT2N0a7a/J8ddT4OgP1y0NprQ3xoQSh0M7+Vd4lgsgQAg==" />
     
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <script type="text/javascript" src="cordova.js"></script>
@@ -51,6 +51,12 @@
   </head>
 
   <body ng-controller="JvfController as ctl" data-space_id="cdi">
+    <div class="header">
+      <span class="header-title">{{ctl.space.title}}</span>
+      <a class="header-sign" id="sign-in" ng-if="!ctl.logged" ng-click="ctl.openLog()">Sign In</a>
+      <a class="header-icon" id="signed" ng-if="ctl.logged" ng-click="ctl.logOut()"><img src="img/profile.png""></a>
+    </div>
+
     <div class="spinner" id="app_spinner">
       <div class="loading">Loading...</div>
       <div class="reload" ng-click="ctl.reload()" style="display: none;">
@@ -58,7 +64,7 @@
         Click here to retry
       </div>
     </div>
-    <div class="container" style="min-height: 100vh; padding-bottom: 80px;">
+    <div class="container {{ctl.no_scroll}}" style="min-height: 100vh; padding-bottom: 80px;">
       <ng-view></ng-view>
 
 <script type="text/ng-template" id="partials/posts.html">
@@ -154,7 +160,7 @@
       </div>
     </div>
     <div class="col-sm-9">
-      <h1 class="h1_scheda">{{ctl.space.title}}</h1>
+      <!--h1 class="h1_scheda">{{ctl.space.title}}</h1-->
       <h2 class="h2_scheda">{{ctl.space.info.claim_page}}</h2>
       <br />
     </div>
@@ -208,6 +214,40 @@
   </div>
 </div>
 </script>
+<script type="text/ng-template" id="partials/chat.html">
+  <div id="chat" style="overflow-y: none;">
+  <br />
+  <h1 class="h1_scheda">Chat</h1>
+  <br />
+      
+  <div id="chat-box" class="chat-box" style="overflow-y: auto;">
+    <div ng-repeat="elem in ctl.space.chats">
+      <div class="bubble-q">{{elem.question}}</div>
+      <div ng-if="elem.answer" class="bubble-a">{{elem.answer}}</div>
+    </div>
+  </div> 
+  <div style="width: 90%;position: absolute;bottom: 80px; display:grid; grid-template-areas: 'text send'; grid-template-columns: 80% 20%;">
+    
+    <textarea id="msg-input" type="text" name="message" style="grid-area: text;"></textarea>
+    <button ng-click="ctl.send()" class="send-btn" style="grid-area: send;">Send</button>
+  </div>
+</div>
+</script>
+    </div>
+
+    <div id="log-pop">
+      <div class="div-close"><a ng-click="ctl.closeLog()" style="margin-right: 3px;">X</a></div>
+      <div class="log-cont">
+        <label style="font-size:20px; font-weight: bold;">Log in to get exclusive features!</label>
+        <label>Email</label>
+        <input type="email" name="email" id="email">
+        <label>Password</label>
+        <input type="password" name="password" id="pwd">
+      </div>
+      <div class="log-btn">
+        <button class="btn-margin" ng-click="ctl.logIn()">Log In</button>
+        <button class="btn-margin" ng-click="ctl.register()">Register</button>
+      </div>
     </div>
 
     <nav class="fixed-bottom jvf-menu">
@@ -217,6 +257,7 @@
         <li class="menu-gallery" ><a href="#!/gallery"  ng-class="ctl.current_view == 'gallery'  ? 'active' : ''" id="tar_gallery">Galleria</a></li>
         <li class="menu-video"   ><a href="#!/video"    ng-class="ctl.current_view == 'video'    ? 'active' : ''" id="tar_video">Video</a></li>
         <li class="menu-profile" ><a href="#!/profile"  ng-class="ctl.current_view == 'profile'  ? 'active' : ''" id="tar_profile">Profilo</a></li>
+        <li class="menu-chat"    ><a href="#!/chat"     ng-class="ctl.current_view == 'chat'     ? 'active' : ''" id="tar_chat">Chat</a></li>
       </ul>
     </nav>
   </body>
