@@ -11,7 +11,7 @@
     <meta name="format-detection" content="telephone=no" />
 
     <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="2tbEiqyr8NU9HN7WQqCf9HuyxXIdT4jWHfCa5F4qwuT2N0a7a/J8ddT4OgP1y0NprQ3xoQSh0M7+Vd4lgsgQAg==" />
+<meta name="csrf-token" content="CtXWWE85zZtKSZfvSKlTOgHkH3oxZ3IpX1PUFKDqzyG0Eclbw29HKrxo0LFUGp+3LUrlsOcS4e6dUa1RHwp0ag==" />
     
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <script type="text/javascript" src="cordova.js"></script>
@@ -226,8 +226,7 @@
       <div ng-if="elem.answer" class="bubble-a">{{elem.answer}}</div>
     </div>
   </div> 
-  <div style="width: 90%;position: absolute;bottom: 80px; display:grid; grid-template-areas: 'text send'; grid-template-columns: 80% 20%;">
-    
+  <div class="input-container">
     <textarea id="msg-input" type="text" name="message" style="grid-area: text;"></textarea>
     <button ng-click="ctl.send()" class="send-btn" style="grid-area: send;">Send</button>
   </div>
