@@ -11,7 +11,7 @@
     <meta name="format-detection" content="telephone=no" />
 
     <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="CtXWWE85zZtKSZfvSKlTOgHkH3oxZ3IpX1PUFKDqzyG0Eclbw29HKrxo0LFUGp+3LUrlsOcS4e6dUa1RHwp0ag==" />
+<meta name="csrf-token" content="uXnbkuQcQoO9JNzNGmxefdTR+lPUhaEtIyaTx5pdIWO5rzDIqo04/HOx77Atx763Iyfe7lewUcp8uiW8+zCzzw==" />
     
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <script type="text/javascript" src="cordova.js"></script>
@@ -51,8 +51,32 @@
   </head>
 
   <body ng-controller="JvfController as ctl" data-space_id="cdi">
-    <div class="header">
-      <span class="header-title">{{ctl.space.title}}</span>
+    <!-- NAVBAR PER DETTAGLI PRODOTTO -->
+    <div id="nav-header" class="detail-header" ng-if="ctl.currTemplate == 'partials/product_detail.html'">
+      <button id="close" type="button" class="close detail-header-button" ng-click="ctl.closeProduct()" aria-label="Close">
+        <span aria-hidden="true"><i class="material-icons">arrow_back_ios</i></span>
+      </button>
+      <span id="nav-title" class="detail-header-title">{{ctl.product_detail.nome_prodotto}}</span>
+      <a class="detail-header-icon" id="signed" ng-click="ctl.share_product(ctl.product_detail)">
+        <i class="material-icons">share</i>
+      </a>
+    </div>
+    <!-- NAVBAR PER DETTAGLI POST -->
+    <div id="nav-header" class="post-header" ng-if="ctl.currTemplate == 'partials/post_detail.html'">
+      <button id="close" type="button" class="close post-header-button" ng-click="ctl.closePost()" aria-label="Close">
+        <span aria-hidden="true"><i class="material-icons">arrow_back_ios</i></span>
+      </button>
+      <span id="nav-title" class="post-header-title">
+        Post del {{ctl.post_detail.data_ora | date: 'd/M/yyyy' }}
+        Ore {{ctl.post_detail.data_ora | date: 'HH:mm' }}
+      </span>
+      <a class="post-header-icon" id="signed" ng-click="ctl.share_post(ctl.post_detail)">
+        <i class="material-icons">share</i>
+      </a>
+    </div>
+    <!-- NAVBAR -->
+    <div id="nav-header" class="header" ng-if="ctl.currTemplate != 'partials/product_detail.html' && ctl.currTemplate != 'partials/post_detail.html' ">
+      <span id="nav-title" class="header-title">{{ctl.space.title}}</span>
       <a class="header-sign" id="sign-in" ng-if="!ctl.logged" ng-click="ctl.openLog()">Sign In</a>
       <a class="header-icon" id="signed" ng-if="ctl.logged" ng-click="ctl.logOut()"><img src="img/profile.png""></a>
     </div>
@@ -64,29 +88,25 @@
         Click here to retry
       </div>
     </div>
-    <div class="container {{ctl.no_scroll}}" style="min-height: 100vh; padding-bottom: 80px;">
+    <div class="container {{ctl.no_scroll}}" style="min-height: 100vh; padding-bottom: 80px; padding-top: 82px;">
       <ng-view></ng-view>
 
 <script type="text/ng-template" id="partials/posts.html">
   <div id="posts">
-  <br />
-  <h1 class="h1_scheda">Post</h1>
-  <br />
-
   <div class="content_post with-share-button" ng-repeat="p in ctl.space.posts">
-    <a href="" class="share-button" ng-click="ctl.share_post(p)">
+    <!--a href="" class="share-button" ng-click="ctl.share_post(p)">
       <i class="material-icons">share</i>
-    </a>
+    </a-->
     <!-- div class="content_head_post">
         <img src="https://www.jewelryvirtualfair.com/public/logo-page/Jvf-lp-201806071015350699.jpeg" class="borderd" alt="JVF">
         <div class="content_head_auth">
-            <strong>ITALSTEEL s.r.l.</strong>
+            <strong>ITALSTEEL s.r.lstrong>
             Italia, Arezzo<br>
             <span class="fs12">24/07/2019 16.20</span>
         </div>
     </div -->
-    {{p.languages[0].des_annuncio}}
-    <img src="https://www.jewelryvirtualfair.com/public/post-image/{{p.immagine_1}}" class="img-responsive mt-3" alt="JVF" />
+    <b>{{p.languages[0].des_annuncio}}</b>
+    <img ng-click="ctl.showPost(p)" src="https://www.jewelryvirtualfair.com/public/post-image/{{p.immagine_1}}" class="img-responsive mt-3" alt="JVF">
     
     <!--div class="content_action_post">
         <div class="action_post_icon no_cp"><i class="fa fa-heart-o"></i> 10&nbsp;Mi piace</div>
@@ -97,40 +117,23 @@
 </script>
 <script type="text/ng-template" id="partials/showroom.html">
   <div id="showroom">
-  <br />
-  <h1 class="h1_scheda">Show-Room</h1>
-  <br />
-
   <div class="row">
     <div class="col-md-4 col-6 with-share-button" ng-repeat="p in ctl.space.products">
-      <a href="" class="share-button" ng-click="ctl.share_product(p)">
+      <!--a href="" class="share-button" ng-click="ctl.share_product(p)">
         <i class="material-icons">share</i>
-      </a>
-      <a href="" class="href_art">
-        <img ng-click='ctl.showPop(p)' src="https://www.jewelryvirtualfair.com/public/prod-page/{{p.photo_galleries[0].nome_foto}}"
+      </a-->
+      <div class="href_art">
+        <img ng-click='ctl.showProduct(p)' src="https://www.jewelryvirtualfair.com/public/prod-page/{{p.photo_galleries[0].nome_foto}}"
         class="img-responsive bordered_f0 " alt="JVF" />
-        <h3>{{p.nome_prodotto}}</h3>
+        <h3 style="text-align: center;">{{p.nome_prodotto}}</h3>
         <!-- div class="prezzo_scat">€ 12,00</div -->
-      </a>
+      </div>
     </div>
   </div>    
-</div>
-
-<div id="imgpop" ng-click="ctl.closePop()">
-  <div>
-    <button id="close" type="button" class="close" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    <img id="popcont" src="" class="img-responsive bordered_f0" style="width:100%;" alt="JVF" />
-  </div>
 </div>
 </script>
 <script type="text/ng-template" id="partials/gallery.html">
   <div id="gallery">
-  <br />
-  <h1 class="h1_scheda">Galleria</h1>
-  <br />
-      
   <div class="owl-item cloned">
     <div class="item" ng-repeat="g in ctl.space.gallery">
       <img src="https://www.jewelryvirtualfair.com/public/gallery-page/{{g.nome_foto}}"
@@ -152,12 +155,15 @@
 </script>
 <script type="text/ng-template" id="partials/profile.html">
   <div id="profile">
-  <div class="row pt25">
+  <div class="row">
     <div class="col-sm-3 hide_sm">
       <div class="content_img_scheda ">
-        <img src="https://www.jewelryvirtualfair.com/public/logo-page/{{ctl.space.info.logo_page}}"
-          class="img-responsive" alt="{{ctl.space.title}}" />
+        <!--img src="https://www.jewelryvirtualfair.com/public/logo-page/{{ctl.space.info.logo_page}}"
+          class="img-responsive" alt="{{ctl.space.title}}" /-->
       </div>
+    </div>
+    <div id="banner" style="padding-top:0!important;">
+      <img style="max-width: 100%; margin-bottom: 10px;" src="https://www.jewelryvirtualfair.com/public/banner-page/{{ctl.space.info.banner_page}}">
     </div>
     <div class="col-sm-9">
       <!--h1 class="h1_scheda">{{ctl.space.title}}</h1-->
@@ -216,19 +222,140 @@
 </script>
 <script type="text/ng-template" id="partials/chat.html">
   <div id="chat" style="overflow-y: none;">
-  <br />
-  <h1 class="h1_scheda">Chat</h1>
-  <br />
-      
   <div id="chat-box" class="chat-box" style="overflow-y: auto;">
     <div ng-repeat="elem in ctl.space.chats">
-      <div class="bubble-q">{{elem.question}}</div>
-      <div ng-if="elem.answer" class="bubble-a">{{elem.answer}}</div>
+      <div class="bubble-q" ng-bind-html="elem.question | newlines | to_trusted "></div>
+      <div ng-if="elem.answer" class="bubble-a" ng-bind-html="elem.answer  | newlines | to_trusted"></div>
     </div>
   </div> 
   <div class="input-container">
     <textarea id="msg-input" type="text" name="message" style="grid-area: text;"></textarea>
     <button ng-click="ctl.send()" class="send-btn" style="grid-area: send;">Send</button>
+  </div>
+</div>
+</script>
+<script type="text/ng-template" id="partials/product_detail.html">
+  <div id="message-sent">
+  <h3><b>Messaggio inviato!</b></h3>
+  <p>Il messaggio è stato inviato, gli operatori di {{ctl.nome_agency}} ti risponderanno al più presto!</p>
+</div>
+
+<div id="imgpop">
+  <div>
+    <!-- SOLO UNA FOTO -->
+    <div class="popcont img-size" ng-if="ctl.product_detail.photo_galleries.length == 1">
+      <img class="img-size popcont" src="https://www.jewelryvirtualfair.com/public/prod-page/{{ctl.product_detail.photo_galleries[0].nome_foto}}" clrass="d-block w-100" alt="JVF">
+    </div>
+    <!-- PIU DI UNA FOTO -->
+    <div ng-if="ctl.product_detail.photo_galleries.length > 1">
+      <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselIndicators" class="{{($index == 0) ? 'active' : '' }}" data-slide-to="{{$index}}" 
+              ng-repeat="foto in ctl.product_detail.photo_galleries track by $index"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="carousel-item {{($index == 0) ? 'active' : '' }}" ng-repeat="foto in ctl.product_detail.photo_galleries track by $index">
+            <!--p>{{foto.nome_foto}}</p-->
+            <img class="img-size popcont" ng-if="ctl.current_view == 'product_detail'" src="https://www.jewelryvirtualfair.com/public/prod-page/{{foto.nome_foto}}" clrass="d-block w-100" alt="JVF">
+          </div>
+        </div>
+        <button class="carousel-control-prev" style="border:none!important; background-color: transparent!important;" onclick="$('#carouselIndicators').carousel('prev')">
+          <i class="material-icons" style="color:#aa165f;font-size: 45px;">keyboard_arrow_left</i>
+          <span class="sr-only">Previous</span>
+        </button>
+        <button class="carousel-control-next" style="border:none!important; background-color: transparent!important;" onclick="$('#carouselIndicators').carousel('next')">
+          <i class="material-icons" style="color:#aa165f;font-size: 45px;">keyboard_arrow_right</i>
+          <span class="sr-only">Next</span>
+        </button>
+        <!--a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+          <i class="material-icons" style="color:#aa165f;font-size: 45px;">keyboard_arrow_left</i>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+          <i class="material-icons" style="color:#aa165f;font-size: 45px;">keyboard_arrow_right</i>
+          <span class="sr-only">Next</span>
+        </a-->
+      </div>
+    </div>
+
+    <div style="margin: 0 auto; max-width: 80%;">
+      <div style="margin:10px;">
+        <div ng-if="ctl.product_detail.des_estesa != '' && ctl.product_detail.des_estesa != null">
+          <p class="pop-title-desc"><b>Descrizione prodotto</b></p>
+          <p id="desc-content" class="pop-text-content">{{ctl.product_detail.des_estesa}}</p>
+        </div>
+        <div ng-if="ctl.product_detail.specifiche_text != '' && ctl.product_detail.specifiche_text != null">
+          <p class="pop-title-desc"><b>Specifiche prodotto</b></p>
+          <p id="desc-content" class="pop-text-content">{{ctl.product_detail.specifiche_text}}</p>
+        </div>
+        <div id="chat-box-container">
+          <p class="pop-title-content" style="color:black;">Hai dubbi su questo prodotto o vuoi acquistarlo? Scrivici!</p>
+          <div class="input-container-detail">
+            <textarea id="msg-input" type="text" name="message" style="grid-area: text;"></textarea>
+            <button ng-click="ctl.send()" class="send-btn" style="grid-area: send;">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</script>
+<script type="text/ng-template" id="partials/post_detail.html">
+  <div id="postpop">
+  <div>
+    <!--div style="width: 100%; display: inline-block;">
+      <button id="close" type="button" class="close" ng-click="ctl.closePost()" aria-label="Close">
+        <span aria-hidden="true"><i class="material-icons">arrow_back_ios</i></span>
+      </button>
+    </div>
+    <div>
+      <p id="product-name-content" class="pop-name">Post del {{ctl.post_detail.data_ora | date: 'd/M/yyyy' }}</p>
+      <p id="product-name-content" class="pop-name">Ore {{ctl.post_detail.data_ora | date: 'HH:mm' }}</p>
+    </div-->
+    <!-- SOLO UNA FOTO -->
+    <div class="popcont img-size" ng-if="ctl.post_pics.length == 1">
+      <img class="img-size popcont d-block w-100" src="https://www.jewelryvirtualfair.com/public/post-image/{{ctl.post_pics[0]}}" alt="JVF">
+    </div>
+    <!-- PIU DI UNA FOTO -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" ng-if="ctl.post_pics.length > 1">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" class="{{($index == 0) ? 'active' : '' }}" data-slide-to="{{$index}}" 
+              ng-repeat="foto in ctl.post_pics track by $index"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item {{($index == 0) ? 'active' : '' }}" ng-repeat="foto in ctl.post_pics track by $index">
+          <img class="img-size popcont" src="https://www.jewelryvirtualfair.com/public/post-image/{{foto}}" clrass="d-block w-100" alt="JVF">
+        </div>
+      </div>
+      <button class="carousel-control-prev" style="border:none!important; background-color: transparent!important;" onclick="$('#carouselExampleIndicators').carousel('prev')">
+          <i class="material-icons" style="color:#aa165f;font-size: 45px;">keyboard_arrow_left</i>
+          <span class="sr-only">Previous</span>
+        </button>
+        <button class="carousel-control-next" style="border:none!important; background-color: transparent!important;" onclick="$('#carouselExampleIndicators').carousel('next')">
+          <i class="material-icons" style="color:#aa165f;font-size: 45px;">keyboard_arrow_right</i>
+          <span class="sr-only">Next</span>
+        </button>
+      <!--a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <i class="material-icons" style="color:#aa165f;font-size: 45px;">keyboard_arrow_left</i>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <i class="material-icons" style="color:#aa165f;font-size: 45px;">keyboard_arrow_right</i>
+        <span class="sr-only">Next</span>
+      </a-->
+    </div>
+
+    <div style="margin: 0 auto; max-width: 80%;">
+      <div style="margin:10px;">
+        <div ng-if="ctl.post_detail.languages[0].des_annuncio != '' && ctl.post_detail.languages[0].des_annuncio != null">
+          <p id="desc-content" class="pop-text-content">{{ctl.post_detail.languages[0].des_annuncio}}</p>
+        </div>
+        <!--div ng-if="ctl.post_detail.specifiche_text != '' && ctl.post_detail.specifiche_text != null">
+          <p class="pop-title-desc"><b>Specifiche prodotto</b></p>
+          <p id="desc-content" class="pop-text-content">{{ctl.post_detail.specifiche_text}}</p>
+        </div-->
+      </div>
+    </div>
   </div>
 </div>
 </script>
