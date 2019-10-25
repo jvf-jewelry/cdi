@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="net.serendpt.cdi" version="1.1.6" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Cdi</name>
+    <name>C.D.I.</name>
     <description>CDI by JVF</description>
     <author email='fabio@serendpt.net' href='http://serendpt.net/it'>SerenDPT</author>
     <content src="index.html" />
